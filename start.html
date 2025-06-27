@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Houston, wir haben ein Problem</title>
+    <link rel="stylesheet" href="aufgaben/styles.css">
+    <script>
+        function createStars() {
+            const numberOfStars = 100;
+            const background = document.querySelector('.background');
+
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight;
+
+                star.style.left = `${x}px`;
+                star.style.top = `${y}px`;
+
+                background.appendChild(star);
+            }
+        }
+
+        function togglePopup() {
+            const popup = document.getElementById('popup');
+            popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+        }
+
+        window.onload = createStars;
+        
+    </script>
+</head>
+<body>
+    <div class="background"></div>
+
+    <div class="centered-container">
+        <p class="centered-text">Ha! Ihr seid endlich da! <br> Ihr dachtet wirklich, ihr könntet mich aufhalten, nicht wahr? Professor Singheiser lässt sich nicht so leicht stoppen! Ihr kleinen Erdlinge habt keine 
+            Ahnung, was hier auf diesem Raumschiff wirklich vorgeht, oder? Während ihr brav in eurer kleinen Welt lebtet, habe ich die Grenzen der Wissenschaft durchbrochen! Doch niemand hat mich verstanden!
+            Niemand! Also, warum sollte ich noch bleiben? Dieses Schiff ist mein Vermächtnis. In <b>--</b> Minuten wird es aufbrechen, und ihr ... na ja, ihr werdet Teil eines großen Experiments sein. Hahaha! Ihr 
+            könnt natürlich versuchen, alles wieder in Ordnung zu bringen. Vielleicht findet ihr ja einen Weg, den Kontakt zur Erde wiederherzustellen - wenn ihr schnell genug seid. Aber seid gewarnt: Ich habe 
+            einige... sagen wir, interessante Hindernisse hinterlassen. Ihr wolltet die Geheimnisse des Universums? Dann bekommt ihr sie! Viel Glück, ihr kleinen Helden. Ihr werdet es brauchen.
+            <br>Singheiser... endet jetzt!
+        </p>
+    </div>
+
+    <div class="weiter-button-container">
+        <a class="weiter-button" href="aufgaben/index.html">
+            <img src="aufgaben/button1.png" alt="Button">
+        </a>
+    </div>
+
+    <img class="settings-button" src="aufgaben/settings.png" alt="Einstellungen" onclick="togglePopup()">
+
+    <div id="popup" class="popup">
+        <h2>Wichtiges</h2>
+        <a href="https://www.aeg-oettingen.de">Impressum</a>
+        <br>
+        <a href="https://www.aeg-oettingen.de">PDF-Begleitheft</a>
+        <br>
+        <button class="close-button" onclick="togglePopup()">Schließen</button>
+    </div>
+</body>
+
+</html>
+
+

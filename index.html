@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Houston, wir haben ein Problem</title>
+    <link rel="stylesheet" href="aufgaben/styles.css">
+    <script>
+        // Funktion, um Sterne zufällig zu erstellen
+        function createStars() {
+            const numberOfStars = 100; // Anzahl der Sterne
+            const background = document.querySelector('.background');
+
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+
+                // Zufällige Position auf dem Bildschirm
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight;
+
+                // Setze die Position der Sterne
+                star.style.left = `${x}px`;
+                star.style.top = `${y}px`;
+
+                // Füge die Sterne zum Hintergrund hinzu
+                background.appendChild(star);
+            }
+        }
+
+        function togglePopup() {
+            const popup = document.getElementById('popup');
+            popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+        }
+
+        // Rufe die Funktion auf, um die Sterne zu erstellen
+        window.onload = createStars;
+    </script>
+</head>
+<body>
+    <div class="background"></div>
+
+    <!-- Einstellungsbutton -->
+    <img class="settings-button" src="aufgaben/settings.png" alt="Einstellungen" onclick="togglePopup()">
+
+    <!-- Pop-up Fenster -->
+    <div id="popup" class="popup">
+        <h2>Wichtiges</h2>
+        <a href="https://www.aeg-oettingen.de/impressum">Impressum</a>
+        <br>
+        <a href="https://www.aeg-oettingen.de/impressum">PDF-Begleitheft</a>
+        <br>
+        <button class="close-button" onclick="togglePopup()">Schließen</button>
+    </div>
+
+    <!-- Professor Bild -->
+    <img class="professor-image" src="aufgaben/professor.png" alt="Professor" width="457" height="680">
+
+    <!-- Schriftzug -->
+    <div class="center-text">
+        <img src="aufgaben/schriftzug.png" alt="Houston, wir haben ein Problem">
+    </div>
+<!-- Button unter dem Schriftzug -->
+<div class="center-button">
+    <a href="start.html">
+        <img src="aufgaben/button.png" alt="Button">
+    </a>
+</div>
+</body>
+</html>
