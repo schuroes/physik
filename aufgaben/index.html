@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduBreakout</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function createStars() {
+            const numberOfStars = 100;
+            const background = document.querySelector('.background');
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight;
+
+                star.style.left = `${x}px`;
+                star.style.top = `${y}px`;
+
+                background.appendChild(star);
+            }
+        }
+
+        function togglePopup() {
+            const popup = document.getElementById('popup');
+            popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+        }
+
+        let currentTaskIndex = parseInt(getCookie("breakout_progress")) || 0;
+        let timer;
+        const timeLimit = 4500;
+        let timeRemaining;
+
+        function startTimer() {
+            if (currentTaskIndex < 1) return;
+            
+            clearInterval(timer);
+
+            const storedStartTime = getCookie("start_time");
+            if (storedStartTime) {
+                const elapsed = Math.floor((Date.now() - parseInt(storedStartTime)) / 1000);
+                timeRemaining = Math.max(timeLimit - elapsed, 0);
+            } else {
+                timeRemaining = timeLimit;
+                setCookie("start_time", Date.now(), 2);
+            }
+
+            updateTimerDisplay();
+
+            timer = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+                if (timeRemaining <= 0) {
+                    clearInterval(timer);
+                    showLostScreen();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const timerElement = document.getElementById("timer");
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            timerElement.textContent = `Zeit: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+        }
+
+        function stopTimerAndHide() {
+            clearInterval(timer);
+            const timerElement = document.getElementById("timer");
+            timerElement.style.display = "none";
+        }
+
+        function showLostScreen() {
+            stopTimerAndHide();
+            document.getElementById("task-container").innerHTML = `
+                <h2>Verloren!</h2>
+                <p>Die Zeit ist abgelaufen.</p>
+            `;
+            setCookie("time_remaining", 0, 2);
+        }
+
+        function loadTask() {
+            const taskFile = `task${currentTaskIndex + 1}.html`;
+            fetch(taskFile)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Keine weiteren Aufgaben verfügbar!");
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    const container = document.getElementById("task-container");
+                    container.innerHTML = html;
+                    
+                    if (currentTaskIndex >= 1) {
+                        startTimer();
+                    }
+
+                    container.querySelectorAll("script").forEach(oldScript => {
+                        const newScript = document.createElement("script");
+                        newScript.textContent = oldScript.textContent;
+                        document.body.appendChild(newScript).parentNode.removeChild(newScript);
+                    });
+
+                    setTimeout(() => {
+                        if (typeof enableBInput === "function") {
+                            enableBInput();
+                        }
+                    }, 100);
+                })
+                .catch(error => {
+                    stopTimerAndHide();
+                    document.getElementById("task-container").innerHTML = `
+                        <h2>Glückwunsch!</h2>
+                        <p>Du hast alle Aufgaben gelöst!</p>
+                        <a href="zielseite.html" class="submit-button">Zum Ziel</a>
+                    `;
+                    setCookie("time_remaining", timeLimit, 2);
+                });
+        }
+
+        function checkCode(input, correctCode) {
+            const errorMessage = document.getElementById("error-message");
+            if (input === correctCode) {
+                errorMessage.style.display = "none";
+                currentTaskIndex++;
+                saveProgress();
+                loadTask();
+            } else {
+                errorMessage.textContent = "Falscher Code. Bitte versuche es erneut.";
+                errorMessage.style.display = "block";
+            }
+        }
+
+        function saveProgress() {
+            setCookie("breakout_progress", currentTaskIndex, 2);
+        }
+
+        function setCookie(name, value, hours) {
+            const date = new Date();
+            date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
+            const expires = "expires=" + date.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+        }
+
+        function getCookie(name) {
+            const decodedCookie = decodeURIComponent(document.cookie);
+            const cookies = decodedCookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const c = cookies[i].trim();
+                if (c.indexOf(name + "=") === 0) {
+                    return c.substring(name.length + 1, c.length);
+                }
+            }
+            return "";
+        }
+
+        window.onload = function () {
+            createStars();
+            loadTask();
+        };
+    </script>
+</head>
+<body>
+    <div class="background"></div>
+    <img class="settings-button" src="settings.png" alt="Einstellungen" onclick="togglePopup()">
+
+    <div id="popup" class="popup">
+        <h2>Wichtiges</h2>
+        <a href="https://www.aeg-oettingen.de/impressum">Impressum</a>
+        <br>
+        <a href="https://www.aeg-oettingen.de">PDF-Begleitheft</a>
+        <br>
+        <button class="close-button" onclick="togglePopup()">Schließen</button>
+    </div>
+    <div id="timer"></div>
+    <div class="container" id="task-container"></div>
+</body>
+</html>

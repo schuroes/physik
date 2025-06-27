@@ -1,0 +1,63 @@
+<div style="text-align: center;">
+    <h2>Experiment: schiefe WAAAS?...</h2>
+    <p>Ihrt schlagt euch bisher sehr gut! Aber beeilt euch! Ihr habt nicht mehr viel Zeit. Beeilt euch ,so wie ich! <br> Begebt euch nun in das Labor von Profeswsor Singheiser. Anf den <b>Experimentiertisch</b> ist eure nächste Aufgabe. Der Zahlencode öffnet euch die nächste Tür...<br>
+        Lese dir dort das Aufgabenblatt durch, <br>
+        löse die Aufgabe und gib den Code hier ein!</p>
+
+    <div style="display: flex; justify-content: center; gap: 10px;">
+        <div>
+            <label for="a-input"><strong>F<sub>G</sub></strong></label>
+            <input id="a-input" class="code-input" type="number" placeholder="Wert eingeben" oninput="enableBInput()">
+        </div>
+
+        <div>
+            <label for="c-input"><strong>F<sub>H</sub></strong></label>
+    <input id="c-input" class="code-input" type="number" placeholder="Wert eingeben" oninput="enableBInput()">
+        </div>
+    </div>
+    <br>
+    <label for="b-input"><strong>F<sub>N</sub></strong</label>
+    <input id="b-input" class="code-input" type="number" placeholder="Wert eingeben" disabled>
+    
+    <br>
+
+    <button class="submit-button" onclick="validatePythagoras()">Bestätigen</button>
+    <p id="error-message" class="error-message" style="display:none;"></p>
+</div>
+
+<script>
+    function enableBInput() {
+        const a = parseFloat(document.getElementById('a-input').value);
+        const c = parseFloat(document.getElementById('c-input').value);
+        const bInput = document.getElementById('b-input');
+
+        if (!isNaN(a) && !isNaN(c) && c > a) {
+            bInput.disabled = false;
+        } else {
+            bInput.disabled = true;
+        }
+    }
+
+    function validatePythagoras() {
+        const a = parseFloat(document.getElementById('a-input').value);
+        const b = parseFloat(document.getElementById('b-input').value);
+        const c = parseFloat(document.getElementById('c-input').value);
+
+        if (isNaN(a) || isNaN(b) || isNaN(c)) {
+            document.getElementById('error-message').textContent = "Bitte alle Werte korrekt eingeben.";
+            document.getElementById('error-message').style.display = "block";
+            return;
+        }
+
+        const expectedC = Math.sqrt(a ** 2 + b ** 2);
+        const tolerance = expectedC * 0.1; // 10% Toleranzbereich
+        const isCorrect = Math.abs(c - expectedC) <= tolerance;
+
+        if (isCorrect) {
+            checkCode("correct", "correct");
+        } else {
+            document.getElementById('error-message').textContent = "Die Werte erfüllen nicht den Satz des Pythagoras innerhalb des Toleranzbereichs. Versuche es erneut.";
+            document.getElementById('error-message').style.display = "block";
+        }
+    }
+</script>

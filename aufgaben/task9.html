@@ -1,0 +1,33 @@
+<div style="text-align: center;">
+    <h2>Aufgabe 10: Einheiten umrechnen</h2>
+    <p>Rechne die folgende Geschwindigkeit in die angegebene Einheit um:</p>
+    <p><strong>36 km/h = ? m/s</strong></p>
+    <p><em>Hinweis: 1 km/h = 0,27778 m/s oder teile durch 3,6</em></p>
+
+    <input id="converted-input" class="code-input" type="number" step="any" placeholder="Wert in m/s">
+    <br><br>
+    <button class="submit-button" onclick="validateConversion()">Bestätigen</button>
+    <p id="error-message" class="error-message" style="display:none;"></p>
+</div>
+
+<script>
+    function validateConversion() {
+        const input = parseFloat(document.getElementById('converted-input').value);
+        const expected = 36 / 3.6; // ergibt 10
+        const tolerance = expected * 0.05; // 5% Toleranz
+        const error = document.getElementById('error-message');
+
+        if (isNaN(input)) {
+            error.textContent = "Bitte gib einen gültigen Wert ein.";
+            error.style.display = "block";
+            return;
+        }
+
+        if (Math.abs(input - expected) <= tolerance) {
+            checkCode("correct", "correct");
+        } else {
+            error.textContent = "Falscher Wert. Überprüfe deine Umrechnung.";
+            error.style.display = "block";
+        }
+    }
+</script>

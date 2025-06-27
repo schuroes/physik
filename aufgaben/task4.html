@@ -1,0 +1,89 @@
+<div style="text-align: center;">
+    <h2>Experiment: Physikalisches Experiment – Bewegung</h2>
+    <p>Begib dich zur Stzation <b>Rettungskapsel</b> Ermittle mithilfe eines fahrenden Wagens die Geschwindigkeit, Beschleunigung und Kraft, die auf ihn wirken. Diese Daten werden benötigt, um die Steuerung der Rettungskapsel neu zu kalibrieren – ohne sie bleibt der Startmechanismus blockiert! Gib ebenfalls das Gewicht des Wagens (<em>m</em>) und die benötigte Zeit (<em>t</em>) an. Berechne anschließend die fehlenden Werte</p>
+
+
+    <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+        <div>
+            <label for="mass-input"><strong>m (kg)</strong></label>
+            <input id="mass-input" class="code-input" type="number" step="any" placeholder="Gewicht in kg" oninput="enableVInput()">
+        </div>
+        <div>
+            <label for="time-input"><strong>t (s)</strong></label>
+            <input id="time-input" class="code-input" type="number" step="any" placeholder="Zeit in s" oninput="enableVInput()">
+        </div>
+        <div>
+            <label for="v-input"><strong>v (m/s)</strong></label>
+            <input id="v-input" class="code-input" type="number" step="any" placeholder="v in m/s" disabled>
+        </div>
+        <div>
+            <label for="a-input"><strong>a (m/s²)</strong></label>
+            <input id="a-input" class="code-input" type="number" step="any" placeholder="a = in m/s²" disabled>
+        </div>
+        <div>
+            <label for="f-input"><strong>F (N)</strong></label>
+            <input id="f-input" class="code-input" type="number" step="any" placeholder="F in N" disabled>
+        </div>
+    </div>
+
+    <br>
+    <button class="submit-button" onclick="validateMotion()">Bestätigen</button>
+    <p id="error-message" class="error-message" style="display:none;"></p>
+</div>
+
+<script>
+    const DISTANCE = 0.75; 
+
+    function enableVInput() {
+        const mass = parseFloat(document.getElementById('mass-input').value);
+        const time = parseFloat(document.getElementById('time-input').value);
+
+        const vInput = document.getElementById('v-input');
+        const aInput = document.getElementById('a-input');
+        const fInput = document.getElementById('f-input');
+
+        if (!isNaN(mass) && !isNaN(time) && time > 0) {
+            vInput.disabled = false;
+            aInput.disabled = false;
+            fInput.disabled = false;
+        } else {
+            vInput.disabled = true;
+            aInput.disabled = true;
+            fInput.disabled = true;
+        }
+    }
+
+    function validateMotion() {
+        const m = parseFloat(document.getElementById('mass-input').value);
+        const t = parseFloat(document.getElementById('time-input').value);
+        const v = parseFloat(document.getElementById('v-input').value);
+        const a = parseFloat(document.getElementById('a-input').value);
+        const f = parseFloat(document.getElementById('f-input').value);
+
+        const error = document.getElementById('error-message');
+
+        if ([m, t, v, a, f].some(val => isNaN(val))) {
+            error.textContent = "Bitte alle Werte korrekt eingeben.";
+            error.style.display = "block";
+            return;
+        }
+
+        const expectedV = DISTANCE / t;
+        const expectedA = expectedV / t;
+        const expectedF = m * expectedA;
+
+        const withinTolerance = (input, expected) =>
+            Math.abs(input - expected) <= expected * 0.1;
+
+        if (
+            withinTolerance(v, expectedV) &&
+            withinTolerance(a, expectedA) &&
+            withinTolerance(f, expectedF)
+        ) {
+            checkCode("correct", "correct");
+        } else {
+            error.textContent = "Eine oder mehrere Berechnungen sind außerhalb des Toleranzbereichs. Bitte überprüfe deine Eingaben.";
+            error.style.display = "block";
+        }
+    }
+</script>

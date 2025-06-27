@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ziel</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function createStars() {
+            const numberOfStars = 100;
+            const background = document.querySelector('.background');
+
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight;
+
+                star.style.left = `${x}px`;
+                star.style.top = `${y}px`;
+
+                background.appendChild(star);
+            }
+        }
+
+        function togglePopup() {
+            const popup = document.getElementById('popup');
+            popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+        }
+
+        window.onload = createStars;
+    </script>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="container">
+        <h1>Gratulation!</h1>
+        <p>Du hast das Ziel erreicht!</p>
+    </div>
+    <img class="settings-button" src="settings.png" alt="Einstellungen" onclick="togglePopup()">
+    <div id="popup" class="popup">
+        <h2>Wichtiges</h2>
+        <a href="https://www.aeg-oettingen.de">Impressum</a>
+        <br>
+        <a href="https://www.aeg-oettingen.de">PDF-Begleitheft</a>
+        <br>
+        <button class="close-button" onclick="togglePopup()">Schließen</button>
+    </div>
+</body>
+</html>

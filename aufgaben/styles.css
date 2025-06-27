@@ -1,0 +1,268 @@
+        
+
+body {
+            margin: 0;
+            background-color: black;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .background {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: white;
+            border-radius: 50%;
+        }
+
+        .settings-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 100px;
+            height: 100px;
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 400px;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+            border-radius: 15px;
+            z-index: 20;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .close-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #555;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        #popup a {
+            font-size: 24px;
+            color: #e5e6e7;
+        }
+
+        .speech-bubble {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            padding: 20px;
+            background-color: gray;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .speech-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+            border-top-color: gray;
+        }
+
+
+        .container {
+            background-color: #444;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            display: inline-block; /* Dynamische Breite basierend auf Inhalt */
+            max-width: 800px; /* Beschränkt auf Bildschirmbreite */
+            color: white;
+        }
+        
+
+        .code-input {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 16px;
+            width: 100px; /* Feste Breite */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .submit-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #555;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .error-message {
+            color: rgb(255, 0, 0); /* Neue Farbe für die Fehlermeldung */
+            margin-top: 10px;
+            font-size: 14px;
+            display: none; /* Initial ausgeblendet */
+        }
+        #timer {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            font-size: 18px;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .weiter-button-container {
+            width: 10%; /* Nimmt die gesamte Breite ein */
+            display: flex;
+            justify-content: flex-end; /* Platziert den Inhalt rechts */
+            margin-top: 5px; /* Abstand zum Container darüber */
+        }
+        
+        .weiter-button {
+            display: inline-block;
+            padding: 0;
+            border: none;
+            background: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .weiter-button img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        
+
+        .centered-container {
+            background-color: gray;
+            width: 60%;
+            max-width: 600px;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Text linksbündig */
+        }
+        
+        .professor-image {
+            position: fixed;
+            right: 10px;
+            bottom: 0;
+            z-index: 5;
+            height: 50%;
+            width: 25%;
+        }
+
+        /* Schriftzug in der Mitte */
+        .center-text {
+            position: absolute;
+            top: 210px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 5;
+            text-align: center;
+        }
+
+        /* Der Button unter Schriftzug */
+        .center-button {
+            position: absolute;
+            top: 400px; /* Setzt den Button unter den Schriftzug */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            cursor: pointer;
+        }
+        h2 {
+            font-family: 'Arial', sans-serif; /* Ändere die Schriftart */
+            font-size: 24px; /* Ändere die Schriftgröße */
+            font-weight: bold; /* Setze die Schrift fett */
+            color: #ffffff; /* Ändere die Schriftfarbe */
+
+        }
+        
+        p {
+            font-family: 'Verdana', sans-serif; /* Ändere die Schriftart */
+            font-size: 16px; /* Ändere die Schriftgröße */
+            color: #e0e0e0; /* Ändere die Schriftfarbe */
+            line-height: 1.5; /* Verbessere die Lesbarkeit */
+        }
+        .input-field {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 2px solid white;
+            width: 150px;
+        }
+        
+        .correct {
+            border-color: green;
+            background-color: #d4ffd4;
+        }
+        
+        .incorrect {
+            border-color: red;
+            background-color: #ffd4d4;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .unit-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .unit-label {
+            min-width: 180px;
+            text-align: right;
+        }
+        
+        .unit-text {
+            min-width: 70px;
+            text-align: left;
+        }
+        

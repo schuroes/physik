@@ -1,0 +1,60 @@
+<div style="text-align: center;">
+    <h2>Einheitentransformation</h2>
+    <p><b>Houston an Crew, bitte kommen...</b>
+    Wir haben ein neues Problem: Das Navigationssystem ist durcheinander. Offenbar hat Professor Singheiser vor seinem Abgang die Umrechnungseinheiten für Geschwindigkeiten, Kraft, AMpewre und Volt im Steuerungssystem sabotiert. 
+    Statt in m/s rechnet der Bordcomputer plötzlich in km/h – und die Kapsel fliegt im Kreis! [...]
+    Nur wenn ihr es schafft, die angezeigte Einheiten korrekt in die verlangte physikalische Einheit umzurechnen, könnt ihr den Autopiloten neu kalibrieren und die Flugbahn korrigieren. 
+    Es hängt alles von einer präzisen Umrechnung ab!</p>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 20px;">
+        <div>
+            <p><strong>5.000.000 V = ? MV</strong></p>
+            <input id="megavolt-input" class="code-input" type="number" step="any" placeholder="Antwort in MV">
+        </div>
+        <div>
+            <p><strong>3 A = ? mA</strong></p>
+            <input id="milliampere-input" class="code-input" type="number" step="any" placeholder="Antwort in mA">
+        </div>
+        <div>
+            <p><strong>25.000.000 µN (Mikronewton) = ? kN</strong></p>
+            <input id="newton-input" class="code-input" type="number" step="any" placeholder="Antwort in N">
+        </div>
+    </div>
+
+    <br>
+    <button class="submit-button" onclick="validateUnitConversions()">Bestätigen</button>
+    <p id="error-message" class="error-message" style="display:none;"></p>
+</div>
+
+<script>
+    function validateUnitConversions() {
+        const inputMV = parseFloat(document.getElementById('megavolt-input').value);
+        const inputmA = parseFloat(document.getElementById('milliampere-input').value);
+        const inputN = parseFloat(document.getElementById('newton-input').value);
+
+        const expectedMV = 5_000_000 / 1_000_000; // = 5
+        const expectedmA = 3 * 1000;              // = 3000
+        const expectedN = 25_000_000 / 1_000_000_000;  // = 0.025
+
+        const tolerance = 0.01; // erlaubt leichte Rundungsabweichung
+
+        const error = document.getElementById('error-message');
+
+        if ([inputMV, inputmA, inputN].some(isNaN)) {
+            error.textContent = "Bitte alle Felder korrekt ausfüllen.";
+            error.style.display = "block";
+            return;
+        }
+
+        const isCorrect =
+            Math.abs(inputMV - expectedMV) <= tolerance &&
+            Math.abs(inputmA - expectedmA) <= tolerance &&
+            Math.abs(inputN - expectedN) <= tolerance;
+
+        if (isCorrect) {
+            checkCode("correct", "correct");
+        } else {
+            error.textContent = "Mindestens eine Umrechnung ist nicht korrekt. Versuche es erneut.";
+            error.style.display = "block";
+        }
+    }
+</script>
